@@ -42,5 +42,23 @@ namespace GettingStarted.Controllers
 
             return View(book);
         }
+
+        public IActionResult Edit(Book book)
+        {
+            return View(book);
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Book book, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                // Logic to edit
+                return RedirectToAction("Index");
+            }
+
+            return View(book);
+        }
     }
 }
