@@ -7,7 +7,7 @@ namespace GettingStarted.Models
         public int Id { get; set; }
 
         [Display(Name = "Book Title")]
-        [Required]
+        [Required(ErrorMessage = "Book Title is required.")]
         [StringLength(maximumLength: 20, MinimumLength = 2, ErrorMessage = "The Title length should be between 2 and 20.")]
         public string? Title { get; set; }
 
