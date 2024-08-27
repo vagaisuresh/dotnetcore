@@ -13,7 +13,7 @@ namespace BookStore.Models
         public string? Genre { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(1, 100)]
+        [Range(1, 1000)]
         public decimal Price { get; set; }
 
         [Display(Name = "Publish Date")]

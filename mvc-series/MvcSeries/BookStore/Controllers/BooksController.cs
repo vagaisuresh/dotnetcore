@@ -52,6 +52,7 @@ namespace BookStore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(book);
         }
 
@@ -63,10 +64,12 @@ namespace BookStore.Controllers
             }
 
             var book = await _context.Book.FindAsync(id);
+
             if (book == null)
             {
                 return NotFound();
             }
+
             return View(book);
         }
 
@@ -111,6 +114,7 @@ namespace BookStore.Controllers
 
             var book = await _context.Book
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -124,6 +128,7 @@ namespace BookStore.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var book = await _context.Book.FindAsync(id);
+
             if (book != null)
             {
                 _context.Book.Remove(book);

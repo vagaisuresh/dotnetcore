@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Models;
 
 namespace BookStore.Data
 {
@@ -14,6 +10,6 @@ namespace BookStore.Data
         {
         }
 
-        public DbSet<BookStore.Models.Book> Book { get; set; } = default!;
+        public DbSet<Book> Book { get; set; } = default!;
     }
 }
