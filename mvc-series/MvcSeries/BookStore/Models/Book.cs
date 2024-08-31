@@ -20,9 +20,6 @@ namespace BookStore.Models
         [DataType(DataType.Date)]
         public DateTime PublishDate { get; set; }
 
-        //public List<string> Authors { get; set; }
-        //public ICollection<Topping>? Toppings { get; set; }
-
         public required ICollection<BookAuthor> BookAuthors { get; set; }
     }
 }
