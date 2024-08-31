@@ -35,6 +35,25 @@
             @Html.DisplayFor(model => model.PublishDate)
         </dd>
     </dl>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Authors
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BookAuthors)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
