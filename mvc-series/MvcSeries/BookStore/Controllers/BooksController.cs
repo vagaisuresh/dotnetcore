@@ -26,20 +26,13 @@ namespace BookStore.Controllers
                 return NotFound();
             }
 
-            //var book = await _context.Book
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-
             var book = await _context.Book
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (book == null)
             {
                 return NotFound();
             }
-
-            book.BookAuthors = await _context.BookAuthor
-                .Include(a => a.Author)
-                .ToListAsync();
 
             return View(book);
         }
