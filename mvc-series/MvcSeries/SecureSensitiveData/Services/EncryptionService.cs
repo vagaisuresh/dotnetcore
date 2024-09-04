@@ -5,8 +5,8 @@ namespace SecureSensitiveData.Services
 {
     public interface IEncryptionService
     {
-        string Encrypt(string data);
-        string Decrypt(string data);
+        string Encrypt(string plainText);
+        string Decrypt(string cipherText);
     }
 
     public class EncryptionService : IEncryptionService
@@ -18,68 +18,80 @@ namespace SecureSensitiveData.Services
             _encryptionKey = encryptionKey ?? throw new ArgumentNullException(nameof(encryptionKey));
         }
 
-        public string Encrypt(string text)
+        public string Encrypt(string plainText)
         {
-            var key = Encoding.UTF8.GetBytes(_encryptionKey);
-
-            using (var aesAlg = Aes.Create())
+            try
             {
-                using (var encryptor = aesAlg.CreateEncryptor(key, aesAlg.IV))
+                byte[] iv = new byte[16];
+                byte[] array;
+
+                using (Aes aes = Aes.Create())
                 {
-                    using (var msEncrypt = new MemoryStream())
+                    aes.Key = Encoding.UTF8.GetBytes(_encryptionKey);
+                    aes.IV = iv;
+
+                    ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
                         {
-                            swEncrypt.Write(text);
+                            using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                            {
+                                streamWriter.Write(plainText);
+                            }
+
+                            array = memoryStream.ToArray();
                         }
-
-                        var iv = aesAlg.IV;
-                        var decryptedContent = msEncrypt.ToArray();
-                        var result = new byte[iv.Length + decryptedContent.Length];
-
-                        Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
-                        Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
-
-                        return Convert.ToBase64String(result);
                     }
                 }
+
+                return Convert.ToBase64String(array);
+            }
+            catch (CryptographicException e)
+            {
+                // Handle cryptographic errors here
+                throw new InvalidOperationException("Encryption failed.", e);
             }
         }
 
         public string Decrypt(string cipherText)
         {
-            cipherText = cipherText.Replace(" ", "+"); // Newly added to eliminate the 64-base decoding error
-
-            var fullCipher = Convert.FromBase64String(cipherText);
-
-            var iv = new byte[16];
-            var cipher = new byte[fullCipher.Length - iv.Length];
-
-            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
-
-            var key = Encoding.UTF8.GetBytes(_encryptionKey);
-
-            using (var aesAlg = Aes.Create())
+            try
             {
-                using (var decryptor = aesAlg.CreateDecryptor(key, iv))
-                {
-                    string result;
+                // Replace spaces with plus signs if needed - 64 base decoding error
+                cipherText = cipherText.Replace(" ", "+");
 
-                    using (var msDecrypt = new MemoryStream(cipher))
+                byte[] iv = new byte[16];
+                byte[] buffer = Convert.FromBase64String(cipherText);
+
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = Encoding.UTF8.GetBytes(_encryptionKey);
+                    aes.IV = iv;
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream memoryStream = new MemoryStream(buffer))
                     {
-                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
                         {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
                             {
-                                result = srDecrypt.ReadToEnd();
+                                return streamReader.ReadToEnd();
                             }
                         }
                     }
-
-                    return result;
                 }
+            }
+            catch (CryptographicException e)
+            {
+                // Handle cryptographic errors here
+                throw new InvalidOperationException("Decryption failed.", e);
+            }
+            catch (FormatException e)
+            {
+                // Handle base64 format errors here
+                throw new ArgumentException("Cipher text is not a valid Base64 string.", e);
             }
         }
     }

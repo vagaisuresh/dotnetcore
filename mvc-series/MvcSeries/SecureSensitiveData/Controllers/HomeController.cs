@@ -16,9 +16,14 @@ namespace SecureSensitiveData.Controllers
             _encryptionService = encryptionService;
         }
 
-        public string Encryption(string content)
+        public string Encryption(string id)
         {
-            return _encryptionService.Encrypt(content);
+            return _encryptionService.Encrypt(id);
+        }
+
+        public string Decryption(string id)
+        {
+            return _encryptionService.Decrypt(id);
         }
 
         public IActionResult Index()
