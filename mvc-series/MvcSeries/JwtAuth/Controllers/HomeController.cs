@@ -1,9 +1,12 @@
 using JwtAuth.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace JwtAuth.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,9 +16,17 @@ namespace JwtAuth.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var username = User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+
+            ViewBag.Username = username;
             return View();
+
+            //var jwt = HttpContext.Session.GetString("JWToken");
+            //return View(jwt);
         }
 
         public IActionResult Privacy()

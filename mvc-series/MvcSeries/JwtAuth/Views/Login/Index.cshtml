@@ -1,0 +1,18 @@
+﻿@model LoginRequest
+
+<form asp-action="Index" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">Invalid credentials</div>
+}
