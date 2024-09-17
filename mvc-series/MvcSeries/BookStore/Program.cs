@@ -1,9 +1,12 @@
 ﻿using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = Environment.GetEnvironmentVariable("BookStoreConnectionString") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.");
+//builder.Services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+string connectionString = Environment.GetEnvironmentVariable("BookStoreConnectionString") ?? throw new InvalidOperationException("Connection string 'BookStoreConnectionString' not found.");
 builder.Services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllersWithViews();

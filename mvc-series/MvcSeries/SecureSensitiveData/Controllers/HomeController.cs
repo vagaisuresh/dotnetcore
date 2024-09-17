@@ -21,8 +21,9 @@ namespace SecureSensitiveData.Controllers
             return _encryptionService.Encrypt(id);
         }
 
-        public string Decryption(string id)
+        public string Decryption()
         {
+            string id = "qUk0pWll8EWfcizu/13zBLgNyVrCuZZgRhGR4doNWYE=";
             return _encryptionService.Decrypt(id);
         }
 
