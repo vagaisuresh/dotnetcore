@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted", "GettingSt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore\BookStore.csproj", "{5CB7504E-8C69-4B89-9714-4CD929EA2807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureSensitiveData", "SecureSensitiveData\SecureSensitiveData.csproj", "{51492468-DFA9-4BD0-9996-6A25ED419A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureSensitiveData", "SecureSensitiveData\SecureSensitiveData.csproj", "{51492468-DFA9-4BD0-9996-6A25ED419A4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtAuth", "JwtAuth\JwtAuth.csproj", "{26CE9991-7379-4B20-86B1-4FFFB4DE7EBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{51492468-DFA9-4BD0-9996-6A25ED419A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51492468-DFA9-4BD0-9996-6A25ED419A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51492468-DFA9-4BD0-9996-6A25ED419A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CE9991-7379-4B20-86B1-4FFFB4DE7EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CE9991-7379-4B20-86B1-4FFFB4DE7EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CE9991-7379-4B20-86B1-4FFFB4DE7EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CE9991-7379-4B20-86B1-4FFFB4DE7EBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
