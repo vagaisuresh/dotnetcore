@@ -25,7 +25,7 @@ namespace AuthUserIdentity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("UserName,Password")] LoginViewModel loginviewmodel)
+        public async Task<IActionResult> Index([Bind("Username,Password")] LoginViewModel loginviewmodel)
         {
             if (loginviewmodel.UserName == null || loginviewmodel.Password == null)
                 return RedirectToAction("Index");
