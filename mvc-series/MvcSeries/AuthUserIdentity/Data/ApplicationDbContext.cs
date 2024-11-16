@@ -8,5 +8,6 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    public DbSet<Userrolemaster> Userrolemasters { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
 }
